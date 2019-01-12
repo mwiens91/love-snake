@@ -12,7 +12,7 @@ function love.load()
     resizable=true,
   }
 
-  love.window.setMode(game_height, game_width, window_flags)
+  love.window.setMode(game_width * 2, game_height * 2, window_flags)
 
 end
 
