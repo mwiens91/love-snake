@@ -12,6 +12,11 @@ function love.load()
   }
 
   love.window.setMode(game_width * 2, game_height * 2, window_flags)
+
+  -- Add background music
+  music = love.audio.newSource("assets/background_music.wav", "stream")
+  music:setLooping(true)
+  music:play()
 end
 
 function love.draw()
