@@ -25,6 +25,26 @@ function love.load()
   music = love.audio.newSource("assets/background_music.wav", "stream")
   music:setLooping(true)
   music:play()
+
+  -- TODO testing
+  x = 0
+  y = 5
+  timer = 0
+end
+
+-- TODO testing
+function love.update(dt)
+  timer = timer + dt
+
+  if timer > 1 then
+    x = x + 1
+
+    if x == x_max + 1 then
+      x = 0
+    end
+
+    timer = timer - 1
+  end
 end
 
 function love.draw()
@@ -62,8 +82,7 @@ function love.draw()
 
   -- TODO testing some rectangles
   love.graphics.setColor(1, 0, 0)
-  draw_cell(5, 5)
-  draw_cell(6, 6)
+  draw_cell(x, y)
 
   -- Print a welcome message
   love.graphics.setColor(1, 1, 1)
