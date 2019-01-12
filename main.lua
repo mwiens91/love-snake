@@ -6,7 +6,6 @@ function love.load()
 
   -- Set the window
   local window_flags = {
-    borderless=true,
     centered=true,
     minheight=game_height,
     minwidth=game_width,
