@@ -47,5 +47,13 @@ function love.draw()
   love.graphics.translate(translate_x, translate_y)
   love.graphics.scale(scale_width, scale_height)
 
+  -- Draw a background colour
+  love.graphics.setColor(0.069, 0.069, 0.069)
+
+  love.graphics.rectangle("fill", 0, 0, game_width, game_height)
+
+  love.graphics.setColor(255,255,255)
+
+  -- Print a welcome message
   love.graphics.printf("hello", 0, game_height / 2, game_width, "center")
 end
