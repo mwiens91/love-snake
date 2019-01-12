@@ -4,6 +4,11 @@ function love.load()
   game_height = 300
   aspect_ratio = game_width / game_height
 
+  -- Grid attributes
+  cell_length = 10
+  x_max = game_width / cell_length - 1
+  y_max = game_height / cell_length - 1
+
   -- Set the window
   local window_flags = {
     minheight=game_height,
@@ -55,8 +60,23 @@ function love.draw()
 
   love.graphics.rectangle("fill", 0, 0, game_width, game_height)
 
-  love.graphics.setColor(255,255,255)
+  -- TODO testing some rectangles
+  love.graphics.setColor(1, 0, 0)
+  draw_cell(5, 5)
+  draw_cell(6, 6)
 
   -- Print a welcome message
+  love.graphics.setColor(1, 1, 1)
+
   love.graphics.printf("hello", 0, game_height / 2, game_width, "center")
+end
+
+function draw_cell(x, y)
+  love.graphics.rectangle(
+    "fill",
+    x * cell_length,
+    y * cell_length,
+    cell_length,
+    cell_length
+  )
 end
