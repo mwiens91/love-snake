@@ -1,3 +1,13 @@
+function draw_cell(x, y)
+  love.graphics.rectangle(
+    "fill",
+    x * cell_length,
+    y * cell_length,
+    cell_length,
+    cell_length
+  )
+end
+
 function love.load()
   -- Minimum dimensions of game
   game_width = 400
@@ -26,24 +36,49 @@ function love.load()
   music:setLooping(true)
   music:play()
 
-  -- TODO testing
+  -- Timer and game speed (how often in seconds the game state updates)
+  timer = 0
+  game_speed = 1
+
+  -- Coordinates for the player's rectangle
+  -- TODO: evolve into snake
   x = 0
   y = 5
-  timer = 0
+
+  -- Direction inputs
+  this_direction = "left"
+  prev_direction = "left"
 end
 
--- TODO testing
 function love.update(dt)
+  -- Add dt to timer
   timer = timer + dt
 
-  if timer > 1 then
-    x = x + 1
-
-    if x == x_max + 1 then
-      x = 0
+  if timer > game_speed then
+    if this_direction == "left" then
+      x = x - 1
+    elseif this_direction == "right" then
+      x = x + 1
+    elseif this_direction == "up" then
+      y = y - 1
+    else
+      -- Down
+      y = y + 1
     end
 
-    timer = timer - 1
+    -- Wrap around the stage as necessary
+    if x == x_max + 1 then
+      x = 0
+    elseif x == -1 then
+      x = x_max
+    elseif y == y_max + 1 then
+      y = 0
+    elseif y == -1 then
+      y = y_max
+    end
+
+    -- Refresh timer for next cycle
+    timer = timer - game_speed
   end
 end
 
@@ -80,7 +115,7 @@ function love.draw()
 
   love.graphics.rectangle("fill", 0, 0, game_width, game_height)
 
-  -- TODO testing some rectangles
+  -- Move a rectangle
   love.graphics.setColor(1, 0, 0)
   draw_cell(x, y)
 
@@ -90,12 +125,15 @@ function love.draw()
   love.graphics.printf("hello", 0, game_height / 2, game_width, "center")
 end
 
-function draw_cell(x, y)
-  love.graphics.rectangle(
-    "fill",
-    x * cell_length,
-    y * cell_length,
-    cell_length,
-    cell_length
-  )
+function love.keypressed(key)
+    -- TODO: add conditions for opposite directions
+    if key == 'right' then
+        this_direction = 'right'
+    elseif key == 'left' then
+        this_direction = 'left'
+    elseif key == 'down' then
+        this_direction = 'down'
+    elseif key == 'up' then
+        this_direction = 'up'
+    end
 end
