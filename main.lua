@@ -42,12 +42,12 @@ function love.load()
 
   -- Coordinates for the player's rectangle
   -- TODO: evolve into snake
-  x = 0
+  x = 5
   y = 5
 
   -- Direction inputs
-  this_direction = "left"
-  prev_direction = "left"
+  this_direction = "right"
+  prev_direction = "right"
 end
 
 function love.update(dt)
@@ -76,6 +76,9 @@ function love.update(dt)
     elseif y == -1 then
       y = y_max
     end
+
+    -- Refresh the last used direction
+    prev_direction = this_direction
 
     -- Refresh timer for next cycle
     timer = timer - game_speed
@@ -126,14 +129,14 @@ function love.draw()
 end
 
 function love.keypressed(key)
-    -- TODO: add conditions for opposite directions
-    if key == 'right' or key == 'd' then
-        this_direction = 'right'
-    elseif key == 'left' or key == 'a' then
-        this_direction = 'left'
-    elseif key == 'down' or key == 's' then
-        this_direction = 'down'
-    elseif key == 'up' or key == 'w' then
-        this_direction = 'up'
+    -- TODO: only forbid backwards movement when snake length > 2
+    if (key == "right" or key == "d") and prev_direction ~= "left" then
+        this_direction = "right"
+    elseif (key == "left" or key == "a") and prev_direction ~= "right" then
+        this_direction = "left"
+    elseif (key == "down" or key == "s") and prev_direction ~= "up" then
+        this_direction = "down"
+    elseif (key == "up" or key == "w") and prev_direction ~= "down" then
+        this_direction = "up"
     end
 end
