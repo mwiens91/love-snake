@@ -127,13 +127,13 @@ end
 
 function love.keypressed(key)
     -- TODO: add conditions for opposite directions
-    if key == 'right' then
+    if key == 'right' or key == 'd' then
         this_direction = 'right'
-    elseif key == 'left' then
+    elseif key == 'left' or key == 'a' then
         this_direction = 'left'
-    elseif key == 'down' then
+    elseif key == 'down' or key == 's' then
         this_direction = 'down'
-    elseif key == 'up' then
+    elseif key == 'up' or key == 'w' then
         this_direction = 'up'
     end
 end
