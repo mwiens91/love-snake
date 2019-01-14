@@ -38,7 +38,7 @@ function love.load()
 
   -- Timer and game speed (how often in seconds the game state updates)
   timer = 0
-  game_speed = 1
+  game_speed = 0.069
 
   -- Coordinates for the player's rectangle
   -- TODO: evolve into snake
