@@ -41,10 +41,13 @@ function love.load()
   timer = 0
   game_speed = 0.069
 
-  -- Coordinates for the player's rectangle
-  -- TODO: evolve into snake
-  x = 5
-  y = 5
+  -- Coordinates for the player's snake. The end of the table is the
+  -- snake's tail and the start of the table is the snake's head.
+  snake_cells = {
+    {x = 5, y = 5},
+    {x = 4, y = 5},
+    {x = 3, y = 5},
+  }
 
   -- Direction inputs
   this_direction = "right"
@@ -56,27 +59,36 @@ function love.update(dt)
   timer = timer + dt
 
   if timer > game_speed then
+    -- Find the next coordinate of the head
     if this_direction == "left" then
-      x = x - 1
+      next_x = snake_cells[1].x - 1
+      next_y = snake_cells[1].y
     elseif this_direction == "right" then
-      x = x + 1
+      next_x = snake_cells[1].x + 1
+      next_y = snake_cells[1].y
     elseif this_direction == "up" then
-      y = y - 1
+      next_x = snake_cells[1].x
+      next_y = snake_cells[1].y - 1
     else
       -- Down
-      y = y + 1
+      next_x = snake_cells[1].x
+      next_y = snake_cells[1].y + 1
     end
 
     -- Wrap around the stage as necessary
-    if x == x_max + 1 then
-      x = 0
-    elseif x == -1 then
-      x = x_max
-    elseif y == y_max + 1 then
-      y = 0
-    elseif y == -1 then
-      y = y_max
+    if next_x == x_max + 1 then
+      next_x = 0
+    elseif next_x == -1 then
+      next_x = x_max
+    elseif next_y == y_max + 1 then
+      next_y = 0
+    elseif next_y == -1 then
+      next_y = y_max
     end
+
+    -- Move the snake
+    table.insert(snake_cells, 1, {x = next_x, y = next_y})
+    table.remove(snake_cells)
 
     -- Refresh the last used direction
     prev_direction = this_direction
@@ -119,9 +131,12 @@ function love.draw()
 
   love.graphics.rectangle("fill", 0, 0, game_width, game_height)
 
-  -- Move a rectangle
+  -- Draw the snake
   love.graphics.setColor(1, 0, 0)
-  draw_cell(x, y)
+
+  for cell_index, cell in ipairs(snake_cells) do
+    draw_cell(cell.x, cell.y)
+  end
 
   -- Print a welcome message
   love.graphics.setColor(1, 1, 1)
