@@ -1,3 +1,4 @@
+-- Draw a rectangle on the game grid at coordinates x and y
 function draw_cell(x, y)
   love.graphics.rectangle(
     "fill",
