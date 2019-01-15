@@ -22,6 +22,7 @@ end
 
 -- Reset or start the game
 function reset_game()
+  snake_live = true
   timer = 0
 
   -- Coordinates for the player's snake. The end of the table is the
@@ -73,57 +74,64 @@ function love.load()
   -- Game speed (how often in seconds the game state updates)
   game_speed = 0.069
 
+  -- Global to determine state of snake game
+  snake_live = true
+
   -- Start the game
   reset_game()
+
+
 end
 
 function love.update(dt)
   -- Add dt to timer
-  timer = timer + dt
+  if snake_live then
+    timer = timer + dt
 
-  if timer > game_speed then
-    -- Find the next coordinate of the head
-    if this_direction == "left" then
-      next_x = snake_cells[1].x - 1
-      next_y = snake_cells[1].y
-    elseif this_direction == "right" then
-      next_x = snake_cells[1].x + 1
-      next_y = snake_cells[1].y
-    elseif this_direction == "up" then
-      next_x = snake_cells[1].x
-      next_y = snake_cells[1].y - 1
-    else
-      -- Down
-      next_x = snake_cells[1].x
-      next_y = snake_cells[1].y + 1
+    if timer > game_speed then
+      -- Find the next coordinate of the head
+      if this_direction == "left" then
+        next_x = snake_cells[1].x - 1
+        next_y = snake_cells[1].y
+      elseif this_direction == "right" then
+        next_x = snake_cells[1].x + 1
+        next_y = snake_cells[1].y
+      elseif this_direction == "up" then
+        next_x = snake_cells[1].x
+        next_y = snake_cells[1].y - 1
+      else
+        -- Down
+        next_x = snake_cells[1].x
+        next_y = snake_cells[1].y + 1
+      end
+
+      -- Wrap around the stage as necessary
+      if next_x == x_max + 1 then
+        next_x = 0
+      elseif next_x == -1 then
+        next_x = x_max
+      elseif next_y == y_max + 1 then
+        next_y = 0
+      elseif next_y == -1 then
+        next_y = y_max
+      end
+
+      -- Check for collision with snake
+      if cell_is_snake_cell({x = next_x, y = next_y}) then
+        snake_live = false
+        --reset_game()
+      end
+
+      -- Move the snake
+      table.insert(snake_cells, 1, {x = next_x, y = next_y})
+      table.remove(snake_cells)
+
+      -- Refresh the last used direction
+      prev_direction = this_direction
+
+      -- Refresh timer for next cycle
+      timer = timer - game_speed
     end
-
-    -- Wrap around the stage as necessary
-    if next_x == x_max + 1 then
-      next_x = 0
-    elseif next_x == -1 then
-      next_x = x_max
-    elseif next_y == y_max + 1 then
-      next_y = 0
-    elseif next_y == -1 then
-      next_y = y_max
-    end
-
-    -- Check for collision with snake
-    if cell_is_snake_cell({x = next_x, y = next_y}) then
-      love.timer.sleep(4)
-      reset_game()
-    end
-
-    -- Move the snake
-    table.insert(snake_cells, 1, {x = next_x, y = next_y})
-    table.remove(snake_cells)
-
-    -- Refresh the last used direction
-    prev_direction = this_direction
-
-    -- Refresh timer for next cycle
-    timer = timer - game_speed
   end
 end
 
@@ -169,8 +177,15 @@ function love.draw()
 
   -- Print a welcome message
   love.graphics.setColor(1, 1, 1)
-
-  love.graphics.printf("hello", 0, game_height / 2, game_width, "center")
+  if not snake_live then
+    love.graphics.printf(
+      "press space to restart",
+      0,
+      game_height / 2,
+      game_width,
+      "center"
+    )
+  end
 end
 
 function love.keypressed(key)
@@ -183,5 +198,8 @@ function love.keypressed(key)
         this_direction = "down"
     elseif (key == "up" or key == "w") and prev_direction ~= "down" then
         this_direction = "up"
+    end
+    if (not snake_live and key == "space") then
+      reset_game()
     end
 end
