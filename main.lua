@@ -9,6 +9,39 @@ function draw_cell(x, y)
   )
 end
 
+-- Determine if a cell is part of the snake
+function cell_is_snake_cell(cell)
+  for _, snake_cell in ipairs(snake_cells) do
+    if snake_cell.x == cell.x and snake_cell.y == cell.y then
+      return true
+    end
+  end
+
+  return false
+end
+
+-- Reset or start the game
+function reset_game()
+  timer = 0
+
+  -- Coordinates for the player's snake. The end of the table is the
+  -- snake's tail and the start of the table is the snake's head.
+  snake_cells = {
+    {x = 10, y = 5},
+    {x = 9, y = 5},
+    {x = 8, y = 5},
+    {x = 7, y = 5},
+    {x = 6, y = 5},
+    {x = 5, y = 5},
+    {x = 4, y = 5},
+    {x = 3, y = 5},
+  }
+
+  -- Direction inputs
+  this_direction = "right"
+  prev_direction = "right"
+end
+
 function love.load()
   -- Minimum dimensions of game
   game_width = 400
@@ -37,21 +70,11 @@ function love.load()
   music:setLooping(true)
   music:play()
 
-  -- Timer and game speed (how often in seconds the game state updates)
-  timer = 0
+  -- Game speed (how often in seconds the game state updates)
   game_speed = 0.069
 
-  -- Coordinates for the player's snake. The end of the table is the
-  -- snake's tail and the start of the table is the snake's head.
-  snake_cells = {
-    {x = 5, y = 5},
-    {x = 4, y = 5},
-    {x = 3, y = 5},
-  }
-
-  -- Direction inputs
-  this_direction = "right"
-  prev_direction = "right"
+  -- Start the game
+  reset_game()
 end
 
 function love.update(dt)
@@ -84,6 +107,12 @@ function love.update(dt)
       next_y = 0
     elseif next_y == -1 then
       next_y = y_max
+    end
+
+    -- Check for collision with snake
+    if cell_is_snake_cell({x = next_x, y = next_y}) then
+      love.timer.sleep(4)
+      reset_game()
     end
 
     -- Move the snake
