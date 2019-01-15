@@ -175,9 +175,10 @@ function love.draw()
     draw_cell(cell.x, cell.y)
   end
 
-  -- Print a welcome message
-  love.graphics.setColor(1, 1, 1)
+  -- Print a reset message if it's game over
   if not snake_live then
+    love.graphics.setColor(1, 1, 1)
+
     love.graphics.printf(
       "press space to restart",
       0,
