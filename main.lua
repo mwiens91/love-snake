@@ -170,9 +170,16 @@ function love.draw()
   love.graphics.rectangle("fill", 0, 0, game_width, game_height)
 
   -- Draw the snake
-  love.graphics.setColor(1, 0, 0)
 
   for cell_index, cell in ipairs(snake_cells) do
+    -- Use different colours for the head
+    if cell_index == 1 then
+      love.graphics.setColor(0.843, 0.851, 0.694)
+    elseif cell_index == 2 then
+      love.graphics.setColor(0.518, 0.675, 0.808)
+    end
+
+    -- Draw the cell
     draw_cell(cell.x, cell.y)
   end
 
