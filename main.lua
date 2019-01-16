@@ -43,6 +43,17 @@ function reset_game()
   prev_direction = "right"
 end
 
+-- Return a cell where snake does not exist
+function get_empty_cell()
+  local rand_x = love.math.random(0, x_max)
+  local rand_y = love.math.random(0, y_max)
+  while is_snake_cell({rand_x, rand_y}) do
+    rand_x = love.math.random(0, x_max)
+    rand_y = love.math.random(0, y_max)
+  end
+  return {rand_x, rand_y}
+end
+
 function love.load()
   -- Minimum dimensions of game
   game_width = 400
