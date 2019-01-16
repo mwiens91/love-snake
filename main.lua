@@ -10,7 +10,7 @@ function draw_cell(x, y)
 end
 
 -- Determine if a cell is part of the snake
-function cell_is_snake_cell(cell)
+function is_snake_cell(cell)
   for _, snake_cell in ipairs(snake_cells) do
     if snake_cell.x == cell.x and snake_cell.y == cell.y then
       return true
@@ -117,9 +117,10 @@ function love.update(dt)
       end
 
       -- Check for collision with snake
-      if cell_is_snake_cell({x = next_x, y = next_y}) then
+      if is_snake_cell({x = next_x, y = next_y}) then
         snake_live = false
-        --reset_game()
+
+        return
       end
 
       -- Move the snake
