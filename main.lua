@@ -145,8 +145,13 @@ function love.update(dt)
       end
 
       -- Move the snake
+      if next_x == berry_cell.x and next_y == berry_cell.y then
+        berry_cell = get_empty_cell()
+      else
+        table.remove(snake_cells)
+      end
+
       table.insert(snake_cells, 1, {x = next_x, y = next_y})
-      table.remove(snake_cells)
 
       -- Refresh the last used direction
       prev_direction = this_direction
