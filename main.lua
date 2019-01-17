@@ -27,15 +27,12 @@ function reset_game()
 
   -- Coordinates for the player's snake. The end of the table is the
   -- snake's tail and the start of the table is the snake's head.
+  local start_x = love.math.random(3, x_max)
+  local start_y = love.math.random(0, y_max)
   snake_cells = {
-    {x = 10, y = 5},
-    {x = 9, y = 5},
-    {x = 8, y = 5},
-    {x = 7, y = 5},
-    {x = 6, y = 5},
-    {x = 5, y = 5},
-    {x = 4, y = 5},
-    {x = 3, y = 5},
+    {x = start_x, y = start_y},
+    {x = start_x - 1, y = start_y},
+    {x = start_x - 2, y = start_y},
   }
 
   -- Direction inputs
@@ -90,8 +87,6 @@ function love.load()
 
   -- Start the game
   reset_game()
-
-
 end
 
 function love.update(dt)
@@ -209,7 +204,6 @@ function love.draw()
 end
 
 function love.keypressed(key)
-    -- TODO: only forbid backwards movement when snake length > 2
     if (key == "right" or key == "d") and prev_direction ~= "left" then
         this_direction = "right"
     elseif (key == "left" or key == "a") and prev_direction ~= "right" then
@@ -219,6 +213,7 @@ function love.keypressed(key)
     elseif (key == "up" or key == "w") and prev_direction ~= "down" then
         this_direction = "up"
     end
+
     if (not snake_live and key == "space") then
       reset_game()
     end
