@@ -44,11 +44,13 @@ end
 function get_empty_cell()
   local rand_x = love.math.random(0, x_max)
   local rand_y = love.math.random(0, y_max)
-  while is_snake_cell({rand_x, rand_y}) do
+
+  while is_snake_cell({x = rand_x, y = rand_y}) do
     rand_x = love.math.random(0, x_max)
     rand_y = love.math.random(0, y_max)
   end
-  return {rand_x, rand_y}
+
+  return {x = rand_x, y = rand_y}
 end
 
 function love.load()
