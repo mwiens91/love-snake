@@ -149,8 +149,8 @@ function love.update(dt)
 
       -- Move the snake
       if next_x == berry_cell.x and next_y == berry_cell.y then
-        sound_eat:stop()
-        sound_eat:play()
+        local clone_eat = sound_eat:clone()
+        clone_eat:play()
         berry_cell = get_empty_cell()
       else
         table.remove(snake_cells)
