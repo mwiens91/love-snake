@@ -20,26 +20,6 @@ function is_snake_cell(cell)
   return false
 end
 
--- Reset or start the game
-function reset_game()
-  snake_live = true
-  timer = 0
-
-  -- Coordinates for the player's snake. The end of the table is the
-  -- snake's tail and the start of the table is the snake's head.
-  local start_x = love.math.random(3, x_max)
-  local start_y = love.math.random(0, y_max)
-  snake_cells = {
-    {x = start_x, y = start_y},
-    {x = start_x - 1, y = start_y},
-    {x = start_x - 2, y = start_y},
-  }
-
-  -- Direction inputs
-  this_direction = "right"
-  prev_direction = "right"
-end
-
 -- Return a cell where snake does not exist
 function get_empty_cell()
   local rand_x = love.math.random(0, x_max)
@@ -51,6 +31,30 @@ function get_empty_cell()
   end
 
   return {x = rand_x, y = rand_y}
+end
+
+-- Reset or start the game
+function reset_game()
+  snake_live = true
+  timer = 0
+
+  -- Coordinates for the player's snake. The end of the table is the
+  -- snake's tail and the start of the table is the snake's head.
+  local start_x = love.math.random(3, x_max)
+  local start_y = love.math.random(0, y_max)
+
+  snake_cells = {
+    {x = start_x, y = start_y},
+    {x = start_x - 1, y = start_y},
+    {x = start_x - 2, y = start_y},
+  }
+
+  -- Coordinates for berry (food)
+  berry_cell = get_empty_cell()
+
+  -- Direction inputs
+  this_direction = "right"
+  prev_direction = "right"
 end
 
 function love.load()
