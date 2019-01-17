@@ -94,6 +94,9 @@ function love.load()
   music:setLooping(true)
   music:play()
 
+  -- Load berry eat sound effect
+  sound_eat = love.audio.newSource("assets/berry_eat.mp3", "static")
+
   -- Game speed (how often in seconds the game state updates)
   game_speed = 0.069
 
@@ -146,6 +149,7 @@ function love.update(dt)
 
       -- Move the snake
       if next_x == berry_cell.x and next_y == berry_cell.y then
+        sound_eat:play()
         berry_cell = get_empty_cell()
       else
         table.remove(snake_cells)
