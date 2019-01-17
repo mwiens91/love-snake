@@ -9,6 +9,15 @@ function draw_cell(x, y)
   )
 end
 
+function draw_cell_circle(x, y)
+  love.graphics.circle(
+    "fill",
+    (2*x + 1) / 2 * cell_length,
+    (2*y + 1) / 2 * cell_length,
+    cell_length / 2
+  )
+end
+
 -- Determine if a cell is part of the snake
 function is_snake_cell(cell)
   for _, snake_cell in ipairs(snake_cells) do
@@ -182,7 +191,6 @@ function love.draw()
   love.graphics.rectangle("fill", 0, 0, game_width, game_height)
 
   -- Draw the snake
-
   for cell_index, cell in ipairs(snake_cells) do
     -- Use different colours for the head
     if cell_index == 1 then
@@ -194,6 +202,10 @@ function love.draw()
     -- Draw the cell
     draw_cell(cell.x, cell.y)
   end
+
+  -- Draw the berry
+  love.graphics.setColor(0.886, 0.627, 1)
+  draw_cell_circle(berry_cell.x, berry_cell.y)
 
   -- Print a reset message if it's game over
   if not snake_live then
