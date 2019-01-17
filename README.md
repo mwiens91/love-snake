@@ -1,7 +1,5 @@
 # love-snake
 
-### WIP: Work in progress
-
 This is the classic game Snake written in [LÖVE](https://love2d.org/)
 (my first game in LÖVE!).
 
