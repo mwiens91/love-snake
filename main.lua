@@ -95,7 +95,7 @@ function love.load()
   music:play()
 
   -- Load berry eat sound effect
-  sound_eat = love.audio.newSource("assets/berry_eat.mp3", "static")
+  sound_eat = love.audio.newSource("assets/berry_eat.wav", "static")
 
   -- Game speed (how often in seconds the game state updates)
   game_speed = 0.069
