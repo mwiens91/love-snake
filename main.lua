@@ -223,13 +223,13 @@ end
 
 function love.keypressed(key)
     if (key == "right" or key == "d") and prev_direction ~= "left" then
-        this_direction = "right"
+      this_direction = "right"
     elseif (key == "left" or key == "a") and prev_direction ~= "right" then
-        this_direction = "left"
+      this_direction = "left"
     elseif (key == "down" or key == "s") and prev_direction ~= "up" then
-        this_direction = "down"
+      this_direction = "down"
     elseif (key == "up" or key == "w") and prev_direction ~= "down" then
-        this_direction = "up"
+      this_direction = "up"
     end
 
     if (not snake_live and key == "space") then
